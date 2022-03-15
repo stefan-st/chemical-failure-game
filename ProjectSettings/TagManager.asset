@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Rat
   - Scientist
+  - RatObstacle
+  - ScientistObstacle
   layers:
   - Default
   - TransparentFX

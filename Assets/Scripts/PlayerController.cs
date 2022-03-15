@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float speed = 7.5f;
+    public float rotationSpeed = 2.0f;
     public float coolDownTime = 5;
 
     CharacterController playerOne;
@@ -18,7 +19,6 @@ public class PlayerController : MonoBehaviour
     public bool canMove = true;
     private bool isMoving;
 
-    Queue<string> powerUps;
 
     private int health = 100;
     private float coolDown = 0;
@@ -32,7 +32,6 @@ public class PlayerController : MonoBehaviour
         rotationOne.y = transform.eulerAngles.y;
         rotationTwo.y = transform.eulerAngles.y;
 
-        powerUps = new Queue<string>();
     }
 
     // Update is called once per frame
@@ -40,11 +39,6 @@ public class PlayerController : MonoBehaviour
     {
         MovePlayer(playerOne, "Player 1");
         MovePlayer(playerTwo, "Player 2");
-
-        if (Input.GetButton("Jump"))
-        {
-            UsePowerUp();
-        }
     }
     void MovePlayer(CharacterController c, string player)
     {
@@ -53,40 +47,19 @@ public class PlayerController : MonoBehaviour
 
         Vector3 moveDirection = (Vector3.forward * curSpeedX) + (Vector3.right * curSpeedY);
 
+        if (player == "Player 2")
+        {
+            // c.transform.Rotate((Input.GetAxis("Mouse X") * rotationSpeed * Time.deltaTime), (Input.GetAxis("Mouse Y") * rotationSpeed * Time.deltaTime), 0, Space.World);
+            rotationTwo.y += Input.GetAxis("Mouse X") * 2.0f;
+            c.transform.eulerAngles = new Vector2(0, rotationTwo.y);
+        }
+
         c.Move(moveDirection * Time.deltaTime);
     }
-
-/*    private void OnTriggerEnter(Collider other)
-    {
-        if (gameObject.CompareTag("Rat"))
-        {
-            if (other.CompareTag("RatObstacle"))
-            {
-                TakeDamage(10);
-                Destroy(other.gameObject);
-            }
-            else powerUps.Enqueue(other.name);
-        }
-
-        if (gameObject.CompareTag("Scientist")) {
-            if (other.CompareTag("ScientistObstacle")) TakeDamage(10);
-            else powerUps.Enqueue(other.name);
-        }
-    }*/
 
     private void TakeDamage(int damage)
     {
         health -= damage;
         if (health <= 0) Destroy(gameObject);
-    }
-
-    private void UsePowerUp()
-    {
-        if (powerUps.Count > 0 && coolDown < Time.time)
-        {
-            coolDown = Time.time + coolDownTime;
-            powerUps.Dequeue();
-            Debug.Log("Power UP used");
-        }
     }
 }
