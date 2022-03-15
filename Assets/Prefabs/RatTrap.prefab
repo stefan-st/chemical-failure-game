@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8303589710723029332}
   - component: {fileID: 4941466173317519089}
   - component: {fileID: 7167313898740376123}
+  - component: {fileID: 9185620820788762837}
   m_Layer: 0
   m_Name: RatTrap
   m_TagString: Untagged
@@ -83,3 +84,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &9185620820788762837
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8680572233460761582}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 0.6371457, z: 1.1744981}
+  m_Center: {x: 0, y: 0.3109199, z: 0}
