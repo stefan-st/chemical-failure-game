@@ -5,19 +5,24 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float speed = 7.5f;
+    public float coolDownTime = 5;
 
     CharacterController playerOne;
     CharacterController playerTwo;
 
-    Vector3 moveDirectionOne = Vector3.zero;
     Vector2 rotationOne = Vector2.zero;
-    Vector3 moveDirectionTwo = Vector3.zero;
     Vector2 rotationTwo = Vector2.zero;
 
     // Start is called before the first frame update
     [HideInInspector]
     public bool canMove = true;
     private bool isMoving;
+
+    Queue<string> powerUps;
+
+    private int health = 100;
+    private float coolDown = 0;
+
 
     void Start()
     {
@@ -26,6 +31,8 @@ public class PlayerController : MonoBehaviour
 
         rotationOne.y = transform.eulerAngles.y;
         rotationTwo.y = transform.eulerAngles.y;
+
+        powerUps = new Queue<string>();
     }
 
     // Update is called once per frame
@@ -33,21 +40,53 @@ public class PlayerController : MonoBehaviour
     {
         MovePlayer(playerOne, "Player 1");
         MovePlayer(playerTwo, "Player 2");
+
+        if (Input.GetButton("Jump"))
+        {
+            UsePowerUp();
+        }
     }
     void MovePlayer(CharacterController c, string player)
     {
-        Vector3 forward = transform.TransformDirection(Vector3.forward);
-        Vector3 right = transform.TransformDirection(Vector3.right);
         float curSpeedX = canMove ? speed * Input.GetAxis(player + " Vertical") : 0;
         float curSpeedY = canMove ? speed * Input.GetAxis(player + " Horizontal") : 0;
 
-        if (curSpeedX != 0 || curSpeedY != 0)
-        {
-            isMoving = true;
-        }
-
-        Vector3 moveDirection = (forward * curSpeedX) + (right * curSpeedY);
+        Vector3 moveDirection = (Vector3.forward * curSpeedX) + (Vector3.right * curSpeedY);
 
         c.Move(moveDirection * Time.deltaTime);
+    }
+
+/*    private void OnTriggerEnter(Collider other)
+    {
+        if (gameObject.CompareTag("Rat"))
+        {
+            if (other.CompareTag("RatObstacle"))
+            {
+                TakeDamage(10);
+                Destroy(other.gameObject);
+            }
+            else powerUps.Enqueue(other.name);
+        }
+
+        if (gameObject.CompareTag("Scientist")) {
+            if (other.CompareTag("ScientistObstacle")) TakeDamage(10);
+            else powerUps.Enqueue(other.name);
+        }
+    }*/
+
+    private void TakeDamage(int damage)
+    {
+        health -= damage;
+        if (health <= 0) Destroy(gameObject);
+    }
+
+    private void UsePowerUp()
+    {
+        if (powerUps.Count > 0 && coolDown < Time.time)
+        {
+            coolDown = Time.time + coolDownTime;
+            powerUps.Dequeue();
+            Debug.Log("Power UP used");
+        }
     }
 }
