@@ -28,6 +28,7 @@ public class ComputerController : MonoBehaviour
         }
         if (isActive)
         {
+            Debug.Log("AAA");
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 destroyProgress += 0.04f * Time.time;

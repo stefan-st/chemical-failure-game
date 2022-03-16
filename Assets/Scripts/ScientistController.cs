@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ScientistController : MonoBehaviour
 {
     public float coolDownTime = 3;
     public GameObject mouseTrap;
+    public Slider m_ScientistHealth;
     // Start is called before the first frame update
 
     Queue<string> powerUps;
@@ -20,6 +22,7 @@ public class ScientistController : MonoBehaviour
     void Start()
     {
         powerUps = new Queue<string>();
+        m_ScientistHealth.value = health;
     }
 
     // Update is called once per frame
@@ -27,6 +30,14 @@ public class ScientistController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.RightShift)) {
             UsePowerUp();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("RatObstacle"))
+        {
+            powerUps.Enqueue(other.name);
         }
     }
 
@@ -46,9 +57,10 @@ public class ScientistController : MonoBehaviour
             if (powerUpName == "RatTrap")
             {
                 trap = Instantiate(mouseTrap);
-                mouseTrap.transform.localPosition = transform.localPosition;
+                mouseTrap.transform.localPosition = new Vector3(transform.localPosition.x, 0, transform.localPosition.z);
+                mouseTrap.tag = "RatObstacle";
+                Debug.Log("Power UP used");
             }
-            Debug.Log("Power UP used");
         }
     }
 }
