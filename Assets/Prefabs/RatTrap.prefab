@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 9185620820788762837}
   m_Layer: 0
   m_Name: RatTrap
-  m_TagString: Untagged
+  m_TagString: RatObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8680572233460761582}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: 2.9778638, y: 0, z: 0.30571496}
   m_LocalScale: {x: 0.16302979, y: 0.16302979, z: 0.16302979}
   m_Children: []
   m_Father: {fileID: 0}
